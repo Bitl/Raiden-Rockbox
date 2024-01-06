@@ -1,27 +1,38 @@
+#region Usings
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Text.RegularExpressions;
 using TagLib;
+#endregion
 
 namespace RB_TagArt
 {
-    public partial class Form1 : Form
+    #region MainForm
+    public partial class MainForm : Form
     {
-        int musicfiles = 0;
+        #region Variables
+        enum ImageFormatOptions
+        {
+            BMP,
+            JPEG
+        }
 
-        public Form1()
+        int musicfiles = 0;
+        ImageFormat imgformat = ImageFormat.Bmp;
+        #endregion
+
+        #region Form Events
+        public MainForm()
         {
             InitializeComponent();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            Width = 611;
+            ImageFormatBox.SelectedIndex = (int)ImageFormatOptions.BMP;
+            CenterToScreen();
             Reset();
-        }
-
-        public void UpdateCurrentTrack(string text)
-        {
-            CurrentTrack.Text = "Track " + text;
         }
 
         private void ExtractButton_Click(object sender, EventArgs e)
@@ -38,9 +49,52 @@ namespace RB_TagArt
                                     ".DS_Store"};
 
             DirSearch(MusicBrowsePath.Text, ExcludeeExts);
-            Reset();
-
             MessageBox.Show("Finished reading the " + MusicBrowsePath.Text + " directory! You may now update your Rockbox library on your device to view your album art!");
+            Reset();
+        }
+
+        //https://www.c-sharpcorner.com/UploadFile/mahesh/folderbrowserdialog-in-C-Sharp/
+        private void MusicBrowsePathButton_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folderDlg = new FolderBrowserDialog();
+            DialogResult result = folderDlg.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                MusicBrowsePath.Text = folderDlg.SelectedPath;
+            }
+        }
+
+        private void OpenOptionsButton_Click(object sender, EventArgs e)
+        {
+            if (Width == 611)
+            {
+                Width = 813;
+            }
+            else if (Width == 813)
+            {
+                Width = 611;
+            }
+        }
+
+        private void ImageFormatBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ImageFormatBox.SelectedIndex == (int)ImageFormatOptions.BMP)
+            {
+                imgformat = ImageFormat.Bmp;
+                UseJPGInsteadOfJPEG.Enabled = false;
+            }
+            else if (ImageFormatBox.SelectedIndex == (int)ImageFormatOptions.JPEG)
+            {
+                imgformat = ImageFormat.Jpeg;
+                UseJPGInsteadOfJPEG.Enabled = true;
+            }
+        }
+        #endregion
+
+        #region Functions
+        public void UpdateCurrentTrack(string text)
+        {
+            CurrentTrackLabel.Text = "Track " + text;
         }
 
         void Reset()
@@ -74,6 +128,20 @@ namespace RB_TagArt
             }
 
             return destImage;
+        }
+
+        public string GetImageFileExtensionForImageFormat()
+        {
+            if (imgformat == ImageFormat.Bmp)
+            {
+                return ".bmp";
+            }
+            else if (imgformat == ImageFormat.Jpeg)
+            {
+                return UseJPGInsteadOfJPEG.Checked ? ".jpg" : ".jpeg";
+            }
+
+            return "";
         }
 
         //https://stackoverflow.com/questions/929276/how-to-recursively-list-all-the-files-in-a-directory-in-c
@@ -110,9 +178,14 @@ namespace RB_TagArt
                         MemoryStream ms = new MemoryStream(Cover.Data.Data);
                         Image coverImage = Image.FromStream(ms, true, true);
                         AlbumCover.Image = coverImage;
-                        Image resizedImage = ResizeImage(coverImage, int.Parse(ImageSize.Text), int.Parse(ImageSize.Text));
-                        string filepath = Path.Combine(Path.GetDirectoryName(f), Regex.Replace(Path.GetFileNameWithoutExtension(f).Replace("\"", "'"), @"[\\\/\<\>\:\?\*\|]", "_"));
-                        resizedImage.Save(filepath + ".bmp", ImageFormat.Bmp);
+                        Image resizedImage = ResizeImage(coverImage, int.Parse(ImageSizeBox.Text), int.Parse(ImageSizeBox.Text));
+                        string imageName = TrackOrAlbumArt.Checked ? Regex.Replace(Path.GetFileNameWithoutExtension(f).Replace("\"", "'"), @"[\\\/\<\>\:\?\*\|]", "_") : "cover";
+                        string filepath = Path.Combine(Path.GetDirectoryName(f), imageName);
+                        resizedImage.Save(filepath + GetImageFileExtensionForImageFormat(), imgformat);
+                        if (!TrackOrAlbumArt.Checked)
+                        {
+                            break;
+                        }
                     }
                     else
                     {
@@ -131,16 +204,7 @@ namespace RB_TagArt
                 Console.WriteLine(ex.Message);
             }
         }
-
-        //https://www.c-sharpcorner.com/UploadFile/mahesh/folderbrowserdialog-in-C-Sharp/
-        private void MusicBrowsePathButton_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog folderDlg = new FolderBrowserDialog();
-            DialogResult result = folderDlg.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                MusicBrowsePath.Text = folderDlg.SelectedPath;
-            }
-        }
+        #endregion
     }
+    #endregion
 }

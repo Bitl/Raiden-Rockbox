@@ -6,10 +6,23 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>Resources\raiden.ico</ApplicationIcon>
+    <PackageIcon>raiden.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Resources\raiden.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="TagLibSharp" Version="2.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\raiden.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
