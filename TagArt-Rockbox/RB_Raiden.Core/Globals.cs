@@ -1,9 +1,12 @@
 ﻿#if GUI
 using RB_TagArt;
 #endif
+#if CONSOLE
 using System.Drawing;
+#endif
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using TagLib;
 
@@ -46,9 +49,14 @@ namespace RB_Raiden.Core
 #if GUI
         public static MainForm? guiForm = null;
 #endif
-        #endregion
+#endregion
 
         #region Functions
+        public static string GetTitle()
+        {
+            return "Bitl's Raiden Extractor v" + Assembly.GetExecutingAssembly().GetName().Version + " for Rockbox";
+        }
+
         public static void Reset()
         {
             musicFiles = 0;

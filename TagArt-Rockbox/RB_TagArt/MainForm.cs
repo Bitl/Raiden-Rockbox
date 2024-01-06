@@ -23,7 +23,7 @@ namespace RB_TagArt
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Text = "Bitl's Raiden v" + Assembly.GetExecutingAssembly().GetName().Version + " for Rockbox";
+            Text = Globals.GetTitle();
             Width = 611;
             ImageFormatBox.SelectedIndex = (int)Globals.ImageFormatOptions.BMP;
             CenterToScreen();

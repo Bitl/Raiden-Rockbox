@@ -1,8 +1,5 @@
 ﻿using ManyConsole;
 using RB_Raiden.Core;
-using System;
-using System.Drawing.Imaging;
-using System.Reflection;
 
 namespace RB_Raiden
 {
@@ -10,7 +7,7 @@ namespace RB_Raiden
     {
         public static int Main(string[] args)
         {
-            Console.WriteLine("Bitl's Raiden v" + Assembly.GetExecutingAssembly().GetName().Version + " for Rockbox");
+            Console.WriteLine(Globals.GetTitle());
             var commands = GetCommands();
             return ConsoleCommandDispatcher.DispatchCommand(commands, args, Console.Out);
         }
@@ -39,6 +36,7 @@ namespace RB_Raiden
             if (string.IsNullOrWhiteSpace(Globals.path))
             {
                 Console.Out.WriteLine("Please specify a music folder.");
+                Console.ReadLine();
                 return 0;
             }
 
