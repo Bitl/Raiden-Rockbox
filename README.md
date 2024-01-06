@@ -1,4 +1,4 @@
-# Raiden
+# Raiden Extractor
 ### IT'S TIME FOR JACK TO LET 'ER RIP!
 Raiden is a program used to RIP images from item tags for use in [Rockbox](https://www.rockbox.org/), the free and open source firmware for mp3 players.
 
