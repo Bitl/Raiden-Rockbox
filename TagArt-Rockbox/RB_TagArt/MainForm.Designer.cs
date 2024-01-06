@@ -126,6 +126,8 @@
             // UseJPGInsteadOfJPEG
             // 
             UseJPGInsteadOfJPEG.AutoSize = true;
+            UseJPGInsteadOfJPEG.Checked = true;
+            UseJPGInsteadOfJPEG.CheckState = CheckState.Checked;
             UseJPGInsteadOfJPEG.Enabled = false;
             UseJPGInsteadOfJPEG.Location = new Point(6, 81);
             UseJPGInsteadOfJPEG.Name = "UseJPGInsteadOfJPEG";
@@ -141,7 +143,7 @@
             TrackOrAlbumArt.Name = "TrackOrAlbumArt";
             TrackOrAlbumArt.Size = new Size(157, 19);
             TrackOrAlbumArt.TabIndex = 4;
-            TrackOrAlbumArt.Text = "Extract art for exery track";
+            TrackOrAlbumArt.Text = "Extract art for every track";
             TrackOrAlbumArt.UseVisualStyleBackColor = true;
             // 
             // ImageFormatLabel
