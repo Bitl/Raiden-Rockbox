@@ -11,3 +11,4 @@ Features:
 Download the .NET SDK for your respective operating system and run the following command in your terminal in the project's deirectory:
 ```dotnet build RB_Raiden.sln --force```
 
+You can also install Visual Studio 2022 or above and compile it from there.
