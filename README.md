@@ -9,4 +9,5 @@ Features:
 
 ## Compile instructions
 Download the .NET SDK for your respective operating system and run the following command in your terminal in the project's deirectory:
-```dotnet build RB_Raiden.csproj -c Release -f net6.0-windows --force```
+```dotnet build RB_Raiden.sln --force```
+
