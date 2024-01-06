@@ -135,6 +135,7 @@
             UseJPGInsteadOfJPEG.TabIndex = 5;
             UseJPGInsteadOfJPEG.Text = "Use \".jpg\" instead of \".jpeg\"";
             UseJPGInsteadOfJPEG.UseVisualStyleBackColor = true;
+            UseJPGInsteadOfJPEG.CheckedChanged += UseJPGInsteadOfJPEG_CheckedChanged;
             // 
             // TrackOrAlbumArt
             // 
@@ -145,6 +146,7 @@
             TrackOrAlbumArt.TabIndex = 4;
             TrackOrAlbumArt.Text = "Extract art for every track";
             TrackOrAlbumArt.UseVisualStyleBackColor = true;
+            TrackOrAlbumArt.CheckedChanged += TrackOrAlbumArt_CheckedChanged;
             // 
             // ImageFormatLabel
             // 
@@ -185,6 +187,7 @@
             ImageSizeBox.TabIndex = 0;
             ImageSizeBox.TextAlign = HorizontalAlignment.Center;
             ImageSizeBox.Value = new decimal(new int[] { 500, 0, 0, 0 });
+            ImageSizeBox.ValueChanged += ImageSizeBox_ValueChanged;
             // 
             // OpenOptionsButton
             // 
@@ -221,7 +224,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "MainForm";
-            Text = "Bitl's Raiden for Rockbox";
+            Text = "RB_Raiden.GUI";
             Load += Form1_Load;
             MusicBrowsePathBox.ResumeLayout(false);
             MusicBrowsePathBox.PerformLayout();
@@ -235,20 +238,20 @@
 
         #endregion
 
-        private Button MusicBrowsePathButton;
-        private TextBox MusicBrowsePath;
-        private GroupBox MusicBrowsePathBox;
-        private Button ExtractButton;
-        private Label CurrentTrackLabel;
-        private PictureBox AlbumCover;
-        private GroupBox OptionsBox;
-        private NumericUpDown ImageSizeBox;
-        private Label ImageSizeLabel;
-        private Button OpenOptionsButton;
-        private Label CurStatusLabel;
-        private Label ImageFormatLabel;
-        private ComboBox ImageFormatBox;
-        private CheckBox TrackOrAlbumArt;
-        private CheckBox UseJPGInsteadOfJPEG;
+        public Button MusicBrowsePathButton;
+        public TextBox MusicBrowsePath;
+        public GroupBox MusicBrowsePathBox;
+        public Button ExtractButton;
+        public Label CurrentTrackLabel;
+        public PictureBox AlbumCover;
+        public GroupBox OptionsBox;
+        public NumericUpDown ImageSizeBox;
+        public Label ImageSizeLabel;
+        public Button OpenOptionsButton;
+        public Label CurStatusLabel;
+        public Label ImageFormatLabel;
+        public ComboBox ImageFormatBox;
+        public CheckBox TrackOrAlbumArt;
+        public CheckBox UseJPGInsteadOfJPEG;
     }
 }

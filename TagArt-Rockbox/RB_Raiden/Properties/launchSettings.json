@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "RB_Raiden": {
+      "commandName": "Project",
+      "commandLineArgs": "-d \"F:\\Music\\Ancient Fan Death Studios - Late Night Sci-Fi\" -f JPG"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RB_Raiden.GUI", "RB_TagArt\RB_Raiden.GUI.csproj", "{DED2AD35-ECA0-485F-BF9E-4B27B9972410}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RB_Raiden.Core", "RB_Raiden.Core\RB_Raiden.Core.shproj", "{6B712B6A-AE8C-4361-8D3F-F37AFCF6AD98}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RB_Raiden", "RB_Raiden\RB_Raiden.csproj", "{50A282C1-4CCF-4786-8943-DA00486940FA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B992F939-033D-4AB9-B07E-631A690B1D43}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DED2AD35-ECA0-485F-BF9E-4B27B9972410}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DED2AD35-ECA0-485F-BF9E-4B27B9972410}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DED2AD35-ECA0-485F-BF9E-4B27B9972410}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DED2AD35-ECA0-485F-BF9E-4B27B9972410}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50A282C1-4CCF-4786-8943-DA00486940FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50A282C1-4CCF-4786-8943-DA00486940FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50A282C1-4CCF-4786-8943-DA00486940FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50A282C1-4CCF-4786-8943-DA00486940FA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9F0DF74B-FE35-4F9E-8E8B-7C63B6BABE87}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		RB_Raiden.Core\RB_Raiden.Core.projitems*{50a282c1-4ccf-4786-8943-da00486940fa}*SharedItemsImports = 5
+		RB_Raiden.Core\RB_Raiden.Core.projitems*{6b712b6a-ae8c-4361-8d3f-f37afcf6ad98}*SharedItemsImports = 13
+		RB_Raiden.Core\RB_Raiden.Core.projitems*{ded2ad35-eca0-485f-bf9e-4b27b9972410}*SharedItemsImports = 5
+	EndGlobalSection
+EndGlobal
