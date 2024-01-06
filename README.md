@@ -17,7 +17,25 @@ On all platforms, install the [.NET 6.0 runtime](https://dotnet.microsoft.com/en
 On Linux, you must install the libgdiplus package for your respective distro.
 
 ## Compile instructions
-Download the .NET SDK for your respective operating system and run the following command in your terminal in the project's derectory:
-```dotnet build RB_Raiden.sln -c Release --force```
+Download the .NET SDK for your respective operating system and run the following command in your terminal in the project's directory:
+
+For Windows, use:
+```dotnet build RB_Raiden/RB_Raiden.csproj -c Release --force --os win```
+and
+```dotnet build RB_TagArt/RB_Raiden.GUI.csproj -c Release --force --os win```
+
+Add ```-a x86``` for 32 bit, or ```-a arm64``` for ARM64.
+
+For Linux, use:
+```dotnet build RB_Raiden/RB_Raiden.csproj -c Release --force --os linux```
+
+Add ```-a arm64``` for ARM64.
+
+For MacOS, use:
+```dotnet build RB_Raiden/RB_Raiden.csproj -c Release --force --os osx```
+
+Add ```-a arm64``` for ARM64/Apple Silicon.
+
+More information regarding build targets [here](https://learn.microsoft.com/en-us/dotnet/core/rid-catalog).
 
 You can also install Visual Studio 2022 or above and compile it from there.
