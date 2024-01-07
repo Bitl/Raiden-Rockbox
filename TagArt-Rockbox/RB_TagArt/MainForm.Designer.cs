@@ -130,9 +130,9 @@
             StoreDirectlyInRockbox.AutoSize = true;
             StoreDirectlyInRockbox.Location = new Point(6, 121);
             StoreDirectlyInRockbox.Name = "StoreDirectlyInRockbox";
-            StoreDirectlyInRockbox.Size = new Size(168, 64);
+            StoreDirectlyInRockbox.Size = new Size(178, 64);
             StoreDirectlyInRockbox.TabIndex = 6;
-            StoreDirectlyInRockbox.Text = "Store directly in Rockbox\r\nNote: make sure your path\r\nis in the same drive as your\r\nRockbox installation.";
+            StoreDirectlyInRockbox.Text = "Store directly in Rockbox\r\nNOTE: Make sure your library\r\nis in the same drive as your\r\nRockbox installation.";
             StoreDirectlyInRockbox.UseVisualStyleBackColor = true;
             StoreDirectlyInRockbox.CheckedChanged += StoreDirectlyInRockbox_CheckedChanged;
             // 

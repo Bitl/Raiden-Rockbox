@@ -58,6 +58,14 @@ namespace RB_Raiden.Core
             return "Bitl's Raiden Extractor v" + Assembly.GetExecutingAssembly().GetName().Version + " for Rockbox";
         }
 
+#if CONSOLE
+        public static void Pause()
+        {
+            Console.Out.WriteLine("Press any key to continue...");
+            Console.ReadLine();
+        }
+#endif
+
         public static void Reset()
         {
             musicFiles = 0;

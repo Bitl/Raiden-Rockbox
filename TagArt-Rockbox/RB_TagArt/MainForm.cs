@@ -39,7 +39,7 @@ namespace RB_TagArt
             }
 
             Globals.DirSearch(Globals.path, Globals.excludedExts);
-            MessageBox.Show("Finished reading the " + Globals.path + " directory! You may now update your Rockbox library on your device to view your art!");
+            MessageBox.Show("Finished reading the " + Globals.path + " directory! You may now refresh your Rockbox library on your device to view your art!");
             FormReset();
         }
 
