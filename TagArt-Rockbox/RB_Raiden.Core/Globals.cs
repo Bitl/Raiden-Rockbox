@@ -36,12 +36,13 @@ namespace RB_Raiden.Core
         public static int musicFiles = 0;
         public static bool useShortFormJPEGName = true;
         public static bool trackArt = false;
+        public static bool storeInRockbox = false;
 #if CONSOLE
         public static bool beep = true;
 #endif
         public static int imageSize = 500;
         public static ImageFormat imgFormat = ImageFormat.Bmp;
-        public static string path = string.Empty;
+        public static string path = "";
         public static string[] excludedExts = new[] { ".png", ".jpg", ".bmp", ".jpeg", ".m3u",
                                                     ".ini", ".database_uuid", ".nomedia", ".ico",
                                                     ".db", ".blackplayer", ".bpstat", ".icns",
@@ -132,6 +133,16 @@ namespace RB_Raiden.Core
                         continue;
                     }
 
+                    string RBpath = "";
+                    if (storeInRockbox)
+                    {
+                        RBpath = Directory.GetDirectoryRoot(sDir).Replace("\\", "/") + ".rockbox/albumart/";
+
+                        if (!Directory.Exists(RBpath))
+                        {
+                            Directory.CreateDirectory(RBpath);
+                        }
+                    }
 #if CONSOLE
                     Console.Out.WriteLine("Processing file " + f);
 #endif
@@ -141,11 +152,18 @@ namespace RB_Raiden.Core
 
                     try
                     {
-                        title = tags.JoinedPerformers + " - " + tags.Title;
+                        title = tags.JoinedPerformers + "-" + tags.Title;
                     }
                     catch (Exception)
                     {
-                        title = Path.GetFileName(f);
+                        if (!storeInRockbox)
+                        {
+                            title = Path.GetFileName(f);
+                        }
+                        else
+                        {
+                            continue;
+                        }
                     }
 
                     ++musicFiles;
@@ -163,7 +181,10 @@ namespace RB_Raiden.Core
                         guiForm.AlbumCover.Image = coverImage;
 #endif
                         Image resizedImage = ResizeImage(coverImage, imageSize, imageSize);
-                        string imageName = trackArt ? Regex.Replace(Path.GetFileNameWithoutExtension(f).Replace("\"", "'"), @"[\\\/\<\>\:\?\*\|]", "_") : "cover";
+
+                        string imageName = trackArt ? 
+                            Regex.Replace(Path.GetFileNameWithoutExtension(f).Replace("\"", "'"), @"[\\\/\<\>\:\?\*\|]", "_") : 
+                            (storeInRockbox ? (RBpath + title) : "cover");
                         string filepath = Path.Combine(Path.GetDirectoryName(f), imageName);
                         resizedImage.Save(filepath + GetImageFileExtensionForImageFormat(), imgFormat);
 #if CONSOLE
@@ -190,9 +211,8 @@ namespace RB_Raiden.Core
                     DirSearch(d, excludedFileExts);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine(ex.Message);
             }
         }
 #endregion

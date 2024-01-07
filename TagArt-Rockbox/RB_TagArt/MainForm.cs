@@ -95,6 +95,11 @@ namespace RB_TagArt
         {
             Globals.imageSize = (int)ImageSizeBox.Value;
         }
+
+        private void StoreDirectlyInRockbox_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.storeInRockbox = StoreDirectlyInRockbox.Checked;
+        }
         #endregion
 
         #region Functions

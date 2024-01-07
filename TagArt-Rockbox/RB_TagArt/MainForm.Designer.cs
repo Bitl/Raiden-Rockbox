@@ -36,6 +36,7 @@
             CurrentTrackLabel = new Label();
             AlbumCover = new PictureBox();
             OptionsBox = new GroupBox();
+            StoreDirectlyInRockbox = new CheckBox();
             UseJPGInsteadOfJPEG = new CheckBox();
             TrackOrAlbumArt = new CheckBox();
             ImageFormatLabel = new Label();
@@ -110,18 +111,30 @@
             // 
             // OptionsBox
             // 
+            OptionsBox.Controls.Add(StoreDirectlyInRockbox);
             OptionsBox.Controls.Add(UseJPGInsteadOfJPEG);
             OptionsBox.Controls.Add(TrackOrAlbumArt);
             OptionsBox.Controls.Add(ImageFormatLabel);
             OptionsBox.Controls.Add(ImageFormatBox);
             OptionsBox.Controls.Add(ImageSizeLabel);
             OptionsBox.Controls.Add(ImageSizeBox);
-            OptionsBox.Location = new Point(596, 47);
+            OptionsBox.Location = new Point(596, 4);
             OptionsBox.Name = "OptionsBox";
-            OptionsBox.Size = new Size(192, 125);
+            OptionsBox.Size = new Size(192, 210);
             OptionsBox.TabIndex = 7;
             OptionsBox.TabStop = false;
             OptionsBox.Text = "Program Options";
+            // 
+            // StoreDirectlyInRockbox
+            // 
+            StoreDirectlyInRockbox.AutoSize = true;
+            StoreDirectlyInRockbox.Location = new Point(6, 121);
+            StoreDirectlyInRockbox.Name = "StoreDirectlyInRockbox";
+            StoreDirectlyInRockbox.Size = new Size(168, 64);
+            StoreDirectlyInRockbox.TabIndex = 6;
+            StoreDirectlyInRockbox.Text = "Store directly in Rockbox\r\nNote: make sure your path\r\nis in the same drive as your\r\nRockbox installation.";
+            StoreDirectlyInRockbox.UseVisualStyleBackColor = true;
+            StoreDirectlyInRockbox.CheckedChanged += StoreDirectlyInRockbox_CheckedChanged;
             // 
             // UseJPGInsteadOfJPEG
             // 
@@ -212,7 +225,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(797, 224);
+            ClientSize = new Size(797, 221);
             Controls.Add(CurStatusLabel);
             Controls.Add(OpenOptionsButton);
             Controls.Add(OptionsBox);
@@ -253,5 +266,6 @@
         public ComboBox ImageFormatBox;
         public CheckBox TrackOrAlbumArt;
         public CheckBox UseJPGInsteadOfJPEG;
+        private CheckBox StoreDirectlyInRockbox;
     }
 }
