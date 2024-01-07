@@ -10,6 +10,7 @@ Other programs exist that do the same things, but are either bugged in some way,
 - Has the ability to recursively operate through large music libraries or individual albums depending on what directory the user chooses.
 - Includes a GUI or CMD/Terminal based version, adding user flexability.
 - Has the option to extract the art for the album only, or extract the art for every track. This helps with albums which have alternate track art.
+- As of releases v1.0.1 and 1.0.2, you can save art in your Rockbox Install directory.
 - Built in .NET 6.0, which means it can be built on Windows, MacOS, and Linux. (GUI only supports Windows due to the use of Windows Forms)
 
 ## Dependencies:
