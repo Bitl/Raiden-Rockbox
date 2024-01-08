@@ -2,7 +2,7 @@
   "profiles": {
     "RB_Raiden": {
       "commandName": "Project",
-      "commandLineArgs": "-d \"F:\\Music\\Ancient Fan Death Studios - Late Night Sci-Fi\" -f JPG"
+      "commandLineArgs": "start -d \"G:\\Downloads\\ipodvideo-sim-w32\\rockbox-sim-ipodvideo\" --rbs True --sim True"
     }
   }
 }

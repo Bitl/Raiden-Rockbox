@@ -12,41 +12,32 @@ using TagLib;
 
 namespace RB_Raiden.Core
 {
-    //https://stackoverflow.com/questions/4135317/make-first-letter-of-a-string-upper-case-with-maximum-performance
-    public static class StringExtensions
-    {
-        public static string FirstCharToUpper(this string input) =>
-            input switch
-            {
-                null => throw new ArgumentNullException(nameof(input)),
-                "" => throw new ArgumentException($"{nameof(input)} cannot be empty", nameof(input)),
-                _ => string.Concat(input[0].ToString().ToUpper(), input.AsSpan(1))
-            };
-    }
-
     public static class Globals
     {
         #region Variables
         public enum ImageFormatOptions
         {
             BMP,
-            JPEG
+            JPEG,
+            None
         }
 
         public static int musicFiles = 0;
         public static bool useShortFormJPEGName = true;
         public static bool trackArt = false;
         public static bool storeInRockbox = false;
+        public static bool isSimulator = false;
 #if CONSOLE
         public static bool beep = true;
 #endif
-        public static int imageSize = 500;
-        public static ImageFormat imgFormat = ImageFormat.Bmp;
+        public static int imageSize = 300;
+        public static ImageFormat imgFormat = ImageFormat.Jpeg;
         public static string path = "";
         public static string[] excludedExts = new[] { ".png", ".jpg", ".bmp", ".jpeg", ".m3u",
                                                     ".ini", ".database_uuid", ".nomedia", ".ico",
                                                     ".db", ".blackplayer", ".bpstat", ".icns",
-                                                    ".DS_Store"};
+                                                    ".DS_Store", ".mp4", ".avi", ".wmv",
+                                                    ".mkv", ".mov", ".exe", ".playlist_control"};
 #if GUI
         public static MainForm? guiForm = null;
 #endif
@@ -57,14 +48,6 @@ namespace RB_Raiden.Core
         {
             return "Bitl's Raiden Extractor v" + Assembly.GetExecutingAssembly().GetName().Version + " for Rockbox";
         }
-
-#if CONSOLE
-        public static void Pause()
-        {
-            Console.Out.WriteLine("Press any key to continue...");
-            Console.ReadLine();
-        }
-#endif
 
         public static void Reset()
         {
@@ -111,56 +94,90 @@ namespace RB_Raiden.Core
             return "";
         }
 
-        public static void SetImageFormatWithString(string input)
+        public static Task<bool> ProcessCoverImage(Image coverImage, string path)
         {
-            if (!string.IsNullOrEmpty(input)) 
+            Image resizedImage = ResizeImage(coverImage, imageSize, imageSize);
+            resizedImage.Save(path, imgFormat);
+
+            if (System.IO.File.Exists(path))
             {
-                if (input.Equals("bmp", StringComparison.InvariantCultureIgnoreCase))
+                return Task.FromResult(true);
+            }
+
+            return Task.FromResult(false);
+        }
+
+        public static string GenerateRockboxCompatibleName(string OGName)
+        {
+            string pattern = @"[\\/<>:?*|]";
+            string replacement = "_";
+
+            Regex regEx = new Regex(pattern);
+
+            return regEx.Replace(OGName.Replace("\"", "'"), replacement);
+        }
+
+        public static string DetermineImagePath(string RBtitle, string sDir, string f)
+        {
+            string RBpath = "";
+            if (storeInRockbox)
+            {
+                if (isSimulator)
                 {
-                    imgFormat = ImageFormat.Bmp;
+                    RBpath = Path.Combine(path, "simdisk/.rockbox/albumart/");
                 }
-                else if (input.Equals("jpg", StringComparison.InvariantCultureIgnoreCase) || 
-                    input.Equals("jpeg", StringComparison.InvariantCultureIgnoreCase))
+                else
                 {
-                    imgFormat = ImageFormat.Jpeg;
+                    RBpath = Directory.GetDirectoryRoot(sDir).Replace("\\", "/") + ".rockbox/albumart/";
+                }
+
+                if (!Directory.Exists(RBpath))
+                {
+                    Directory.CreateDirectory(RBpath);
                 }
             }
+
+            string imageName = trackArt ? GenerateRockboxCompatibleName(Path.GetFileNameWithoutExtension(f)) :
+                (storeInRockbox ? GenerateRockboxCompatibleName(RBtitle) : "cover");
+            string filepath = Path.Combine(storeInRockbox ? RBpath : Path.GetDirectoryName(f), imageName);
+            string fullfilepath = filepath + GetImageFileExtensionForImageFormat();
+
+            return fullfilepath;
         }
 
         //https://stackoverflow.com/questions/929276/how-to-recursively-list-all-the-files-in-a-directory-in-c
-        public static void DirSearch(string sDir, string[] excludedFileExts)
+        public static async void DirSearch(string sDir)
         {
-            try
-            {
-                Console.Out.WriteLine("Processing directory " + sDir);
-
-                foreach (string f in Directory.GetFiles(sDir))
-                {
-                    if (excludedFileExts.Contains(Path.GetExtension(f)))
-                    {
-                        continue;
-                    }
-
-                    string RBpath = "";
-                    if (storeInRockbox)
-                    {
-                        RBpath = Directory.GetDirectoryRoot(sDir).Replace("\\", "/") + ".rockbox/albumart/";
-
-                        if (!Directory.Exists(RBpath))
-                        {
-                            Directory.CreateDirectory(RBpath);
-                        }
-                    }
 #if CONSOLE
-                    Console.Out.WriteLine("Processing file " + f);
+            Console.Out.WriteLine("Processing directory " + sDir);
 #endif
 
+            string title = "";
+            Image curImage = null;
+
+            foreach (string f in Directory.GetFiles(sDir))
+            {
+                if (excludedExts.Contains(Path.GetExtension(f)))
+                {
+                    continue;
+                }
+
+                try
+                {
                     var tags = TagLib.File.Create(f).Tag;
-                    string title = "";
+                    string RBtitle = "";
 
                     try
                     {
-                        title = tags.JoinedPerformers + "-" + tags.Title;
+                        if (trackArt)
+                        {
+                            title = tags.JoinedPerformers + " - " + tags.Title;
+                        }
+                        else 
+                        {
+                            title = tags.JoinedPerformers + " - " + tags.Album;
+                            RBtitle = tags.JoinedPerformers + "-" + tags.Album;
+                        }
                     }
                     catch (Exception)
                     {
@@ -175,52 +192,55 @@ namespace RB_Raiden.Core
                     }
 
                     ++musicFiles;
-#if GUI
-                    guiForm.UpdateCurrentTrack("#" + musicFiles.ToString("N0") + " - " + title);
-#endif
+                    
+                    string filepath = DetermineImagePath(RBtitle, sDir, f);
 
                     Picture? Cover = new Picture(tags.Pictures[0].Data);
 
                     if (Cover != null)
                     {
-                        MemoryStream ms = new MemoryStream(Cover.Data.Data);
-                        Image coverImage = Image.FromStream(ms, true, true);
-#if GUI
-                        guiForm.AlbumCover.Image = coverImage;
-#endif
-                        Image resizedImage = ResizeImage(coverImage, imageSize, imageSize);
+                        using (MemoryStream ms = new MemoryStream(Cover.Data.Data))
+                        {
+                            curImage = Image.FromStream(ms, true, true);
+                            bool exists = await ProcessCoverImage(curImage, filepath);
 
-                        string imageName = trackArt ? 
-                            Regex.Replace(Path.GetFileNameWithoutExtension(f).Replace("\"", "'"), @"[\\\/\<\>\:\?\*\|]", "_") : 
-                            (storeInRockbox ? (RBpath + title) : "cover");
-                        string filepath = Path.Combine(Path.GetDirectoryName(f), imageName);
-                        resizedImage.Save(filepath + GetImageFileExtensionForImageFormat(), imgFormat);
+                            if (exists)
+                            {
 #if CONSOLE
-                        Console.Out.WriteLine("Saved art as " + filepath + GetImageFileExtensionForImageFormat());
+                               Console.Out.WriteLine("Saved art as " + filepath);
 #endif
-                        if (!trackArt)
+                            }
+                        }
+
+                        if (!trackArt || storeInRockbox)
                         {
                             break;
                         }
                     }
                     else
                     {
-#if GUI
-                        guiForm.AlbumCover.Image = null;
-#endif
                         continue;
                     }
                 }
-
-                Console.Out.WriteLine("Done with " + sDir);
-
-                foreach (string d in Directory.GetDirectories(sDir))
+                catch (Exception)
                 {
-                    DirSearch(d, excludedFileExts);
+                    break;
                 }
             }
-            catch (Exception)
+
+#if GUI
+            string text = "#" + musicFiles.ToString("N0") + " - " + title;
+            guiForm.BeginInvoke(new MethodInvoker(() =>
             {
+                guiForm.CurrentTrackLabel.Text = trackArt ? "Track " + text : "Album " + text;
+                guiForm.AlbumCover.Image = curImage;
+                guiForm.Update();
+            }));
+#endif
+
+            foreach (string d in Directory.GetDirectories(sDir))
+            {
+                DirSearch(d);
             }
         }
 #endregion

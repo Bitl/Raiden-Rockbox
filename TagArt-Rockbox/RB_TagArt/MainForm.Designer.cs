@@ -36,6 +36,8 @@
             CurrentTrackLabel = new Label();
             AlbumCover = new PictureBox();
             OptionsBox = new GroupBox();
+            Simulator = new CheckBox();
+            HeightLabel = new Label();
             StoreDirectlyInRockbox = new CheckBox();
             UseJPGInsteadOfJPEG = new CheckBox();
             TrackOrAlbumArt = new CheckBox();
@@ -45,6 +47,7 @@
             ImageSizeBox = new NumericUpDown();
             OpenOptionsButton = new Button();
             CurStatusLabel = new Label();
+            Worker = new System.ComponentModel.BackgroundWorker();
             MusicBrowsePathBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)AlbumCover).BeginInit();
             OptionsBox.SuspendLayout();
@@ -111,6 +114,8 @@
             // 
             // OptionsBox
             // 
+            OptionsBox.Controls.Add(Simulator);
+            OptionsBox.Controls.Add(HeightLabel);
             OptionsBox.Controls.Add(StoreDirectlyInRockbox);
             OptionsBox.Controls.Add(UseJPGInsteadOfJPEG);
             OptionsBox.Controls.Add(TrackOrAlbumArt);
@@ -125,24 +130,44 @@
             OptionsBox.TabStop = false;
             OptionsBox.Text = "Program Options";
             // 
+            // Simulator
+            // 
+            Simulator.AutoSize = true;
+            Simulator.Enabled = false;
+            Simulator.Location = new Point(24, 136);
+            Simulator.Name = "Simulator";
+            Simulator.Size = new Size(126, 19);
+            Simulator.TabIndex = 8;
+            Simulator.Text = "Use Simulator Path";
+            Simulator.UseVisualStyleBackColor = true;
+            Simulator.CheckedChanged += Simulator_CheckedChanged;
+            // 
+            // HeightLabel
+            // 
+            HeightLabel.AutoSize = true;
+            HeightLabel.Location = new Point(125, 19);
+            HeightLabel.Name = "HeightLabel";
+            HeightLabel.Size = new Size(22, 15);
+            HeightLabel.TabIndex = 7;
+            HeightLabel.Text = "x 1";
+            // 
             // StoreDirectlyInRockbox
             // 
             StoreDirectlyInRockbox.AutoSize = true;
-            StoreDirectlyInRockbox.Location = new Point(6, 121);
+            StoreDirectlyInRockbox.Location = new Point(6, 117);
             StoreDirectlyInRockbox.Name = "StoreDirectlyInRockbox";
-            StoreDirectlyInRockbox.Size = new Size(178, 64);
+            StoreDirectlyInRockbox.Size = new Size(157, 19);
             StoreDirectlyInRockbox.TabIndex = 6;
-            StoreDirectlyInRockbox.Text = "Store directly in Rockbox\r\nNOTE: Make sure your library\r\nis in the same drive as your\r\nRockbox installation.";
+            StoreDirectlyInRockbox.Text = "Store directly in Rockbox";
             StoreDirectlyInRockbox.UseVisualStyleBackColor = true;
             StoreDirectlyInRockbox.CheckedChanged += StoreDirectlyInRockbox_CheckedChanged;
+            StoreDirectlyInRockbox.Click += StoreDirectlyInRockbox_Click;
             // 
             // UseJPGInsteadOfJPEG
             // 
             UseJPGInsteadOfJPEG.AutoSize = true;
-            UseJPGInsteadOfJPEG.Checked = true;
-            UseJPGInsteadOfJPEG.CheckState = CheckState.Checked;
             UseJPGInsteadOfJPEG.Enabled = false;
-            UseJPGInsteadOfJPEG.Location = new Point(6, 81);
+            UseJPGInsteadOfJPEG.Location = new Point(6, 79);
             UseJPGInsteadOfJPEG.Name = "UseJPGInsteadOfJPEG";
             UseJPGInsteadOfJPEG.Size = new Size(172, 19);
             UseJPGInsteadOfJPEG.TabIndex = 5;
@@ -153,7 +178,7 @@
             // TrackOrAlbumArt
             // 
             TrackOrAlbumArt.AutoSize = true;
-            TrackOrAlbumArt.Location = new Point(6, 100);
+            TrackOrAlbumArt.Location = new Point(6, 98);
             TrackOrAlbumArt.Name = "TrackOrAlbumArt";
             TrackOrAlbumArt.Size = new Size(157, 19);
             TrackOrAlbumArt.TabIndex = 4;
@@ -164,7 +189,7 @@
             // ImageFormatLabel
             // 
             ImageFormatLabel.AutoSize = true;
-            ImageFormatLabel.Location = new Point(6, 55);
+            ImageFormatLabel.Location = new Point(6, 52);
             ImageFormatLabel.Name = "ImageFormatLabel";
             ImageFormatLabel.Size = new Size(81, 15);
             ImageFormatLabel.TabIndex = 3;
@@ -174,7 +199,7 @@
             // 
             ImageFormatBox.FormattingEnabled = true;
             ImageFormatBox.Items.AddRange(new object[] { "BMP", "JPEG" });
-            ImageFormatBox.Location = new Point(118, 52);
+            ImageFormatBox.Location = new Point(93, 49);
             ImageFormatBox.Name = "ImageFormatBox";
             ImageFormatBox.Size = new Size(58, 23);
             ImageFormatBox.TabIndex = 2;
@@ -185,21 +210,21 @@
             ImageSizeLabel.AutoSize = true;
             ImageSizeLabel.Location = new Point(6, 19);
             ImageSizeLabel.Name = "ImageSizeLabel";
-            ImageSizeLabel.Size = new Size(118, 30);
+            ImageSizeLabel.Size = new Size(63, 15);
             ImageSizeLabel.TabIndex = 1;
-            ImageSizeLabel.Text = "Image Size\r\n(in width and height)";
+            ImageSizeLabel.Text = "Image Size";
             // 
             // ImageSizeBox
             // 
             ImageSizeBox.Increment = new decimal(new int[] { 5, 0, 0, 0 });
-            ImageSizeBox.Location = new Point(130, 22);
+            ImageSizeBox.Location = new Point(75, 17);
             ImageSizeBox.Maximum = new decimal(new int[] { 999, 0, 0, 0 });
             ImageSizeBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             ImageSizeBox.Name = "ImageSizeBox";
             ImageSizeBox.Size = new Size(46, 23);
             ImageSizeBox.TabIndex = 0;
             ImageSizeBox.TextAlign = HorizontalAlignment.Center;
-            ImageSizeBox.Value = new decimal(new int[] { 500, 0, 0, 0 });
+            ImageSizeBox.Value = new decimal(new int[] { 1, 0, 0, 0 });
             ImageSizeBox.ValueChanged += ImageSizeBox_ValueChanged;
             // 
             // OpenOptionsButton
@@ -221,6 +246,11 @@
             CurStatusLabel.TabIndex = 9;
             CurStatusLabel.Text = "Status:";
             // 
+            // Worker
+            // 
+            Worker.DoWork += Worker_DoWork;
+            Worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -238,6 +268,7 @@
             MaximizeBox = false;
             Name = "MainForm";
             Text = "RB_Raiden.GUI";
+            FormClosing += Form1_Closing;
             Load += Form1_Load;
             MusicBrowsePathBox.ResumeLayout(false);
             MusicBrowsePathBox.PerformLayout();
@@ -251,21 +282,24 @@
 
         #endregion
 
-        public Button MusicBrowsePathButton;
-        public TextBox MusicBrowsePath;
-        public GroupBox MusicBrowsePathBox;
-        public Button ExtractButton;
+        private Button MusicBrowsePathButton;
+        private TextBox MusicBrowsePath;
+        private GroupBox MusicBrowsePathBox;
+        private Button ExtractButton;
         public Label CurrentTrackLabel;
         public PictureBox AlbumCover;
-        public GroupBox OptionsBox;
-        public NumericUpDown ImageSizeBox;
-        public Label ImageSizeLabel;
-        public Button OpenOptionsButton;
-        public Label CurStatusLabel;
-        public Label ImageFormatLabel;
-        public ComboBox ImageFormatBox;
-        public CheckBox TrackOrAlbumArt;
-        public CheckBox UseJPGInsteadOfJPEG;
+        private GroupBox OptionsBox;
+        private NumericUpDown ImageSizeBox;
+        private Label ImageSizeLabel;
+        private Button OpenOptionsButton;
+        private Label CurStatusLabel;
+        private Label ImageFormatLabel;
+        private ComboBox ImageFormatBox;
+        private CheckBox TrackOrAlbumArt;
+        private CheckBox UseJPGInsteadOfJPEG;
         private CheckBox StoreDirectlyInRockbox;
+        private Label HeightLabel;
+        private CheckBox Simulator;
+        public System.ComponentModel.BackgroundWorker Worker;
     }
 }
