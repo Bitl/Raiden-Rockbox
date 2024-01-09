@@ -4,11 +4,6 @@
 Raiden Extractor is a program used to RIP images from item tags for use in [Rockbox](https://www.rockbox.org/), the free and open source firmware for MP3 players.
 Other programs exist that do the same things, but are either bugged in some way, are non-functional, or are completely unaccessable. This software solves that issue while also streamlining the experience.
 
-## Images:
-![Raiden Extractor GUI](/images/RB_Raiden.GUI_nvqIXhPEJn.png)
-![Raiden Extractor GUI with options open.](/images/RB_Raiden.GUI_uvzZdI6IoX.png)
-![Raiden Extractor CMD](/images/cmd_ju0D1wClrk.png)
-
 ## Features:
 - Exports in .bmp and .jpeg (with the option to use shorter .jpg file names if necessary.)
 - Allows you to set the size of the images (300 x 300 by default)
@@ -19,6 +14,11 @@ Other programs exist that do the same things, but are either bugged in some way,
 - As of release v1.1.0 (v1.0.1 and v1.0.2 had it but the implementation was buggy), you can save art in your Rockbox "/.rockbox/albumart/" install directory.
     * As of release v1.1.0, you can use the above feature with the [Rockbox Simulators](http://rasher.dk/rockbox/simulator/).
 - Built in .NET 6.0, which means it can be built on Windows, MacOS, and Linux. (GUI only supports Windows due to the use of Windows Forms)
+
+## Images:
+![Raiden Extractor GUI](/images/RB_Raiden.GUI_nvqIXhPEJn.png)
+![Raiden Extractor GUI with options open.](/images/RB_Raiden.GUI_uvzZdI6IoX.png)
+![Raiden Extractor CMD](/images/cmd_ju0D1wClrk.png)
 
 ## Dependencies:
 On all platforms, install the [.NET 6.0 runtime](https://dotnet.microsoft.com/en-us/download/dotnet/6.0).
