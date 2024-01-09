@@ -1,8 +1,8 @@
 # Raiden Extractor
 
-![Raiden Extractor GUI](/images/RB_Raiden.GUI_nvqIXhPEJn.png))
-![Raiden Extractor GUI with options open.](/images/RB_Raiden.GUI_uvzZdI6IoX.png))
-![Raiden Extractor CMD](/images/cmd_ju0D1wClrk.png))
+![Raiden Extractor GUI](/images/RB_Raiden.GUI_nvqIXhPEJn.png)
+![Raiden Extractor GUI with options open.](/images/RB_Raiden.GUI_uvzZdI6IoX.png)
+![Raiden Extractor CMD](/images/cmd_ju0D1wClrk.png)
 
 ## **IT'S TIME FOR JACK TO LET 'ER RIP!**
 Raiden Extractor is a program used to RIP images from item tags for use in [Rockbox](https://www.rockbox.org/), the free and open source firmware for MP3 players.
