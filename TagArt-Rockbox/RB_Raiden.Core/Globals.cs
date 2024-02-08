@@ -171,12 +171,12 @@ namespace RB_Raiden.Core
                     {
                         if (trackArt)
                         {
-                            title = tags.JoinedPerformers + " - " + tags.Title;
+                            title = tags.Performers[0] + " - " + tags.Title;
                         }
                         else 
                         {
-                            title = tags.JoinedPerformers + " - " + tags.Album;
-                            RBtitle = tags.JoinedPerformers + "-" + tags.Album;
+                            title = tags.Performers[0] + " - " + tags.Album;
+                            RBtitle = tags.Performers[0] + "-" + tags.Album;
                         }
                     }
                     catch (Exception)
