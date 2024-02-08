@@ -7,9 +7,9 @@
     <Nullable>enable</Nullable>
     <PackageIcon>raiden.png</PackageIcon>
     <ApplicationIcon>raiden.ico</ApplicationIcon>
-    <AssemblyVersion>1.1.0.1</AssemblyVersion>
-    <FileVersion>1.1.0.1</FileVersion>
-    <Version>1.1.0.1</Version>
+    <AssemblyVersion>1.1.0.2</AssemblyVersion>
+    <FileVersion>1.1.0.2</FileVersion>
+    <Version>1.1.0.2</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

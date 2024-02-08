@@ -169,14 +169,24 @@ namespace RB_Raiden.Core
 
                     try
                     {
+                        string AlbumArtist = tags.Performers[0];
+
                         if (trackArt)
                         {
-                            title = tags.Performers[0] + " - " + tags.Title;
+                            title = AlbumArtist + " - " + tags.Title;
                         }
                         else 
                         {
-                            title = tags.Performers[0] + " - " + tags.Album;
-                            RBtitle = tags.Performers[0] + "-" + tags.Album;
+                            if (tags.Album != null)
+                            {
+                                title = AlbumArtist + " - " + tags.Album;
+                                RBtitle = AlbumArtist + "-" + tags.Album;
+                            }
+                            else
+                            {
+                                title = AlbumArtist + " - " + tags.Title;
+                                RBtitle = AlbumArtist + "-" + tags.Title;
+                            }
                         }
                     }
                     catch (Exception)
