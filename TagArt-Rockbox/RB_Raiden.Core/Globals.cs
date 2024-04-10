@@ -27,6 +27,7 @@ namespace RB_Raiden.Core
         public static bool trackArt = false;
         public static bool storeInRockbox = false;
         public static bool isSimulator = false;
+        public static bool useFirstAlbumArtist = false;
 #if CONSOLE
         public static bool beep = true;
 #endif
@@ -169,7 +170,12 @@ namespace RB_Raiden.Core
 
                     try
                     {
-                        string AlbumArtist = tags.Performers[0];
+                        string AlbumArtist = tags.FirstPerformer;
+
+                        if (useFirstAlbumArtist)
+                        {
+                            AlbumArtist = tags.FirstAlbumArtist;
+                        }
 
                         if (trackArt)
                         {

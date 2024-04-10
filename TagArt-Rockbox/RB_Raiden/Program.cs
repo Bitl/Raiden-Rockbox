@@ -47,6 +47,7 @@ namespace RB_Raiden
             HasOption("t|trackart=", "Specifies whether images should be extracted per track. Ignored when the  \"rbs/rockboxstore=\" option is enabled. Disabled by default. Use True or False.", p => TrackArtOption(p));
             HasOption("rbs|rockboxstore=", "Specifies whether images should be stored in the current Rockbox installation in /.rockbox/albumart. Disabled by default. Use True or False.", p => Globals.storeInRockbox = bool.Parse(p.FirstCharToUpper()));
             HasOption("sim|simulator=", "Specifies whether images should be stored in the current Rockbox Simulator's simdisk/.rockbox/albumart folder. Requires the \"rbs/rockboxstore=\" option to function. Disabled by default. Use True or False.", p => SimOption(p));
+            HasOption("a|usealbumartist=", "Specifies whether the extracted cover names should use the first album artist instead of the first contributing artist. Disabled by default. Use True or False.", p => FirstAlbumArtistOption(p));
             HasOption("b|beep=", "Specifies whether the console should beep upon completion. Enabled by default. Use True or False.", p => Globals.beep = bool.Parse(p.FirstCharToUpper()));
             HasOption("p|pause=", "Specifies whether the console should pause at important points. Enabled by default. Use True or False.", p => pause = bool.Parse(p.FirstCharToUpper()));
         }
@@ -69,6 +70,8 @@ namespace RB_Raiden
             Console.Out.WriteLine(" Extract art for every track: " + Globals.trackArt.ToString());
             Console.Out.WriteLine(" Store directly in Rockbox: " + Globals.storeInRockbox.ToString());
             Console.Out.WriteLine("     Use Simulator Path: " + Globals.isSimulator.ToString());
+            Console.Out.WriteLine(" Use first album artist instead");
+            Console.Out.WriteLine(" of first contributing artist: " + Globals.useFirstAlbumArtist.ToString());
 
             if (pause)
             {
@@ -121,6 +124,13 @@ namespace RB_Raiden
             }
         }
 
+        private void FirstAlbumArtistOption(string p)
+        {
+            if (!Globals.storeInRockbox)
+            {
+                Globals.useFirstAlbumArtist = bool.Parse(p.FirstCharToUpper());
+            }
+        }
 
         public static void Pause()
         {

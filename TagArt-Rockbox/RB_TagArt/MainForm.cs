@@ -33,6 +33,7 @@ namespace RB_TagArt
             TrackOrAlbumArt.Checked = Globals.trackArt;
             StoreDirectlyInRockbox.Checked = Globals.storeInRockbox;
             Simulator.Checked = Globals.isSimulator;
+            FirstAlbumArtist.Checked = Globals.useFirstAlbumArtist;
             CenterToScreen();
             FormReset();
         }
@@ -94,7 +95,7 @@ namespace RB_TagArt
             if (result == DialogResult.OK)
             {
                 MusicBrowsePath.Text = folderDlg.SelectedPath;
-                Globals.path = folderDlg.SelectedPath;
+                Globals.path = MusicBrowsePath.Text;
             }
         }
 
@@ -208,6 +209,16 @@ namespace RB_TagArt
             }
 
             return selectedOption;
+        }
+
+        private void MusicBrowsePath_TextChanged(object sender, EventArgs e)
+        {
+            Globals.path = MusicBrowsePath.Text;
+        }
+
+        private void FirstAlbumArtist_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.useFirstAlbumArtist = FirstAlbumArtist.Checked;
         }
         #endregion
     }

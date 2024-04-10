@@ -36,6 +36,7 @@
             CurrentTrackLabel = new Label();
             AlbumCover = new PictureBox();
             OptionsBox = new GroupBox();
+            FirstAlbumArtist = new CheckBox();
             Simulator = new CheckBox();
             HeightLabel = new Label();
             StoreDirectlyInRockbox = new CheckBox();
@@ -70,6 +71,7 @@
             MusicBrowsePath.Name = "MusicBrowsePath";
             MusicBrowsePath.Size = new Size(277, 23);
             MusicBrowsePath.TabIndex = 1;
+            MusicBrowsePath.TextChanged += MusicBrowsePath_TextChanged;
             // 
             // MusicBrowsePathBox
             // 
@@ -99,7 +101,7 @@
             CurrentTrackLabel.BorderStyle = BorderStyle.Fixed3D;
             CurrentTrackLabel.Location = new Point(12, 174);
             CurrentTrackLabel.Name = "CurrentTrackLabel";
-            CurrentTrackLabel.Size = new Size(370, 40);
+            CurrentTrackLabel.Size = new Size(370, 51);
             CurrentTrackLabel.TabIndex = 4;
             // 
             // AlbumCover
@@ -107,13 +109,14 @@
             AlbumCover.BorderStyle = BorderStyle.Fixed3D;
             AlbumCover.Location = new Point(388, 12);
             AlbumCover.Name = "AlbumCover";
-            AlbumCover.Size = new Size(202, 202);
+            AlbumCover.Size = new Size(202, 213);
             AlbumCover.SizeMode = PictureBoxSizeMode.StretchImage;
             AlbumCover.TabIndex = 5;
             AlbumCover.TabStop = false;
             // 
             // OptionsBox
             // 
+            OptionsBox.Controls.Add(FirstAlbumArtist);
             OptionsBox.Controls.Add(Simulator);
             OptionsBox.Controls.Add(HeightLabel);
             OptionsBox.Controls.Add(StoreDirectlyInRockbox);
@@ -125,10 +128,20 @@
             OptionsBox.Controls.Add(ImageSizeBox);
             OptionsBox.Location = new Point(596, 4);
             OptionsBox.Name = "OptionsBox";
-            OptionsBox.Size = new Size(192, 210);
+            OptionsBox.Size = new Size(192, 221);
             OptionsBox.TabIndex = 7;
             OptionsBox.TabStop = false;
             OptionsBox.Text = "Program Options";
+            // 
+            // FirstAlbumArtist
+            // 
+            FirstAlbumArtist.Location = new Point(6, 153);
+            FirstAlbumArtist.Name = "FirstAlbumArtist";
+            FirstAlbumArtist.Size = new Size(180, 35);
+            FirstAlbumArtist.TabIndex = 9;
+            FirstAlbumArtist.Text = "Use first album artist instead of first contributing artist";
+            FirstAlbumArtist.UseVisualStyleBackColor = true;
+            FirstAlbumArtist.CheckedChanged += FirstAlbumArtist_CheckedChanged;
             // 
             // Simulator
             // 
@@ -255,7 +268,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(797, 221);
+            ClientSize = new Size(797, 229);
             Controls.Add(CurStatusLabel);
             Controls.Add(OpenOptionsButton);
             Controls.Add(OptionsBox);
@@ -301,5 +314,6 @@
         private Label HeightLabel;
         private CheckBox Simulator;
         public System.ComponentModel.BackgroundWorker Worker;
+        private CheckBox FirstAlbumArtist;
     }
 }
